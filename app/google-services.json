@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "635064840608",
+    "project_id": "food-app-a8a81",
+    "storage_bucket": "food-app-a8a81.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:635064840608:android:87c557d5024f0823beb4c5",
+        "android_client_info": {
+          "package_name": "com.busrayalcin.foodapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "635064840608-iju144oae38cjladdunamu2liouel9ja.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBEP-3yItk5ghCyvV3Rj2hij315n1pd3SM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "635064840608-iju144oae38cjladdunamu2liouel9ja.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
