@@ -23,8 +23,6 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
         super.onCreate(savedInstanceState)
         auth = Firebase.auth
         setHasOptionsMenu(true)
-
-
     }
 
     override fun onCreateView(
@@ -32,14 +30,9 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-//        binding = FragmentHomeBinding.inflate(inflater,container,false)
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_home,container,false)
-
         binding.toolbarHomeTitle = ""
         (activity as AppCompatActivity).setSupportActionBar(binding.toolbarHome)
-//        binding.toolbarHome.setNavigationIcon(R.drawable.logofoodies)
-
-        //Show logo instead of toolbar title
         binding.toolbarHome.setLogo(R.drawable.logofoodies)
 
         return binding.root
@@ -47,7 +40,6 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.main_menu,menu)
-
         val item = menu.findItem(R.id.action_search)
         val searchView = item.actionView as SearchView
         searchView.setOnQueryTextListener(this)

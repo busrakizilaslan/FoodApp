@@ -22,6 +22,9 @@ import dagger.hilt.android.AndroidEntryPoint
 class LoginFragment : Fragment() {
     private lateinit var binding : FragmentLoginBinding
     private lateinit var auth: FirebaseAuth
+    //*****
+    //SIGN OUT OLDUKTAN SONRA ILK BACKPRESSTE HOME FRAGMENTA GECIYOR BU ENGELLENECEK
+    //*****
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +50,7 @@ class LoginFragment : Fragment() {
 
     }
 
-    fun signUp(){
+    private fun signUp(){
         binding.buttonSignUp.setOnClickListener {
             val view = it
             val email = binding.tiEmailAddress.editText?.text.toString()
@@ -69,7 +72,7 @@ class LoginFragment : Fragment() {
         }
     }
 
-    fun signIn(){
+    private fun signIn(){
         binding.buttonSignIn.setOnClickListener {
             val view = it
             val email = binding.tiEmailAddress.editText?.text.toString()
@@ -88,7 +91,6 @@ class LoginFragment : Fragment() {
                     }
             }
         }
-
     }
 
 }
