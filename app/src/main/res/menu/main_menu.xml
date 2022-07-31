@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="Item" />
+    <item
+        android:id="@+id/action_signout"
+        android:title="Sign Out"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_search"
+        android:title="Search"
+        android:icon="@drawable/search_24_white"
+        app:showAsAction="ifRoom|collapseActionView"
+        app:actionViewClass="androidx.appcompat.widget.SearchView" />
+
 </menu>
