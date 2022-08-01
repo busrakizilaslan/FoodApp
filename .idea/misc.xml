@@ -7,6 +7,7 @@
         <entry key="..\:/Users/CGLR/Desktop/Tubisad/FoodApp/app/src/main/res/drawable/loginedittext.xml" value="0.304" />
         <entry key="..\:/Users/CGLR/Desktop/Tubisad/FoodApp/app/src/main/res/layout/activity_main.xml" value="0.18611111111111112" />
         <entry key="..\:/Users/CGLR/Desktop/Tubisad/FoodApp/app/src/main/res/layout/activity_splash_screen.xml" value="0.14666666666666667" />
+        <entry key="..\:/Users/CGLR/Desktop/Tubisad/FoodApp/app/src/main/res/layout/food_row.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/CGLR/Desktop/Tubisad/FoodApp/app/src/main/res/layout/fragment_home.xml" value="0.1" />
         <entry key="..\:/Users/CGLR/Desktop/Tubisad/FoodApp/app/src/main/res/layout/fragment_login.xml" value="0.22" />
         <entry key="..\:/Users/CGLR/Desktop/Tubisad/FoodApp/app/src/main/res/layout/fragment_sign_up.xml" value="0.20034722222222223" />
@@ -23,7 +24,7 @@
   <component name="VisualizationToolProject">
     <option name="state">
       <ProjectState>
-        <option name="scale" value="0.22" />
+        <option name="scale" value="0.3333333333333333" />
       </ProjectState>
     </option>
   </component>
