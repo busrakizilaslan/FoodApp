@@ -4,15 +4,20 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.NavDirections
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.busrayalcin.foodapp.R
 import com.busrayalcin.foodapp.data.entity.Food
 import com.busrayalcin.foodapp.databinding.FoodRowBinding
-import com.busrayalcin.foodapp.ui.viewmodel.HomeViewModel
+import com.busrayalcin.foodapp.ui.fragment.HomeFragmentDirections
+import com.busrayalcin.foodapp.ui.viewmodel.HomeFragmentViewModel
+import com.busrayalcin.foodapp.utils.doNavigate
+import com.busrayalcin.foodapp.utils.showUrlImage
 
 class FoodAdapter(var mContext: Context,
                   var foodList:List<Food>,
-                  var viewModel: HomeViewModel)
+                  var viewModel: HomeFragmentViewModel)
     : RecyclerView.Adapter<FoodAdapter.FoodViewHolder>(){
 
     inner class FoodViewHolder(binding: FoodRowBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -33,9 +38,10 @@ class FoodAdapter(var mContext: Context,
         val food = foodList[position]
         val hb = holder.binding
         hb.foodObject = food
+        hb.ivFoodImage.showUrlImage(food.yemek_resim_adi)
 
         hb.cvFood.setOnClickListener {
-            // detay sayfasına gidilecek
+            Navigation.doNavigate(it,HomeFragmentDirections.actionHomeFragmentToFoodDetailsFragment())
         }
 
         hb.ivCountDown.setOnClickListener {

@@ -12,7 +12,8 @@
         tools:layout="@layout/fragment_login" >
         <action
             android:id="@+id/action_loginFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
@@ -22,5 +23,12 @@
         <action
             android:id="@+id/action_homeFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_foodDetailsFragment"
+            app:destination="@id/foodDetailsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/foodDetailsFragment"
+        android:name="com.busrayalcin.foodapp.ui.fragment.FoodDetailsFragment"
+        android:label="FoodDetailsFragment" />
 </navigation>

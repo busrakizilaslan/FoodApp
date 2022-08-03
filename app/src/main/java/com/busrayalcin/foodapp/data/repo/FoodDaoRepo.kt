@@ -26,9 +26,6 @@ class FoodDaoRepo @Inject constructor(var fdao : FoodDao) {
                 println("getAllFoods onResponse")
                 val list = response.body().foodList
                 foodList.value = list
-                println("*******************************************")
-                println(response.body().foodList[0].yemek_resim_adi)
-                println("*******************************************")
             }
             override fun onFailure(call: Call<FoodResponse>?, t: Throwable?) {
                 println("getAllFoods onFailure")

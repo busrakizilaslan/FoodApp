@@ -8,7 +8,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(var frepo : FoodDaoRepo)
+class HomeFragmentViewModel @Inject constructor(var frepo : FoodDaoRepo)
     : ViewModel() {
 
     var foodList = MutableLiveData<List<Food>>()
