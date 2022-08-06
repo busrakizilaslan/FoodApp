@@ -80,13 +80,14 @@ class FoodDetailsFragment : Fragment() {
     }
 
     fun countListener(){
+        getFood.yemek_adet = 1
         binding.ivPlus.setOnClickListener {
             getFood.yemek_adet++
             println("adet = ${getFood.yemek_adet}")
             binding.tvFoodCount.text = getFood.yemek_adet.toString()
         }
         binding.ivMinus.setOnClickListener {
-            if ( getFood.yemek_adet > 0){
+            if (getFood.yemek_adet > 1){
                 getFood.yemek_adet--
             }
             binding.tvFoodCount.text = getFood.yemek_adet.toString()
