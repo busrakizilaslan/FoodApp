@@ -26,9 +26,24 @@
         <action
             android:id="@+id/action_homeFragment_to_foodDetailsFragment"
             app:destination="@id/foodDetailsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_cartFragment"
+            app:destination="@id/cartFragment" />
     </fragment>
     <fragment
         android:id="@+id/foodDetailsFragment"
         android:name="com.busrayalcin.foodapp.ui.fragment.FoodDetailsFragment"
-        android:label="FoodDetailsFragment" />
+        android:label="FoodDetailsFragment" >
+        <argument
+            android:name="food"
+            app:argType="com.busrayalcin.foodapp.data.entity.Food" />
+    </fragment>
+    <fragment
+        android:id="@+id/cartFragment"
+        android:name="com.busrayalcin.foodapp.ui.fragment.CartFragment"
+        android:label="CartFragment" >
+        <action
+            android:id="@+id/action_cartFragment_to_foodDetailsFragment"
+            app:destination="@id/foodDetailsFragment" />
+    </fragment>
 </navigation>

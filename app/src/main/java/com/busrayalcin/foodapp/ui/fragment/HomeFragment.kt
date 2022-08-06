@@ -7,21 +7,28 @@ import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.busrayalcin.foodapp.R
+import com.busrayalcin.foodapp.data.entity.Food
 import com.busrayalcin.foodapp.databinding.FragmentHomeBinding
 import com.busrayalcin.foodapp.ui.adapter.FoodAdapter
 import com.busrayalcin.foodapp.ui.viewmodel.HomeFragmentViewModel
+import com.busrayalcin.foodapp.utils.doNavigate
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
     private lateinit var binding : FragmentHomeBinding
     private lateinit var viewModel: HomeFragmentViewModel
     private lateinit var auth: FirebaseAuth
+    private lateinit var currentUserEmail : String
+    private  var foodOrderList : ArrayList<Food>? = null
+    private var bundle = Bundle()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +36,11 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
         setHasOptionsMenu(true)
         val tempViewModel: HomeFragmentViewModel by viewModels()
         viewModel = tempViewModel
+
+        currentUserEmail = auth.currentUser?.email.toString()
+
+        viewModel.downloadFoods()
+        viewModel.getCart(currentUserEmail)
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,16 +49,19 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_home,container,false)
         binding.toolbarHomeTitle = ""
+
         (activity as AppCompatActivity).setSupportActionBar(binding.toolbarHome)
         binding.toolbarHome.setLogo(R.drawable.logofoodies)
 
         viewModel.foodList.observe(viewLifecycleOwner){
-            println("Test")
             println(it)
-            val adapter = FoodAdapter(requireContext(),it,viewModel)
+            val adapter = FoodAdapter(requireContext(), it,viewModel, currentUserEmail)
             binding.foodAdapter = adapter
         }
 
+        binding.fabCart.setOnClickListener {
+            Navigation.doNavigate(it,HomeFragmentDirections.actionHomeFragmentToCartFragment())
+        }
         return binding.root
     }
 
@@ -73,12 +88,25 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
 
     override fun onQueryTextChange(newText: String?): Boolean {
         println("onQueryTextChange")
+        val filteredlist: ArrayList<Food> = ArrayList()
+        for (item in viewModel.foodList.value!!) {
+            if (item.yemek_adi.lowercase(Locale.ROOT).contains(newText!!))
+                filteredlist.add(item)
+        }
+        val adapter = FoodAdapter(requireContext(), filteredlist,viewModel, currentUserEmail)
+        binding.foodAdapter = adapter
         return true
     }
 
     override fun onResume() {
         super.onResume()
-        viewModel.downloadFoods()
     }
+
+
+
+
+
+
+
 
 }

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <variable name="foodObject" type="com.busrayalcin.foodapp.data.entity.Food" />
-        <variable name="homeFragment" type="com.busrayalcin.foodapp.ui.fragment.HomeFragment" />
-
+        <variable name="cartFoodObject" type="com.busrayalcin.foodapp.data.entity.CartFood" />
+        <variable name="tl" type="String" />
     </data>
 
     <LinearLayout
@@ -51,7 +51,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto"
-                    android:text="@{foodObject.yemek_adi}"
+                    android:text="@{cartFoodObject.yemek_adi}"
                     android:textSize="24sp"
                     android:textStyle="bold"
                     android:layout_marginLeft="10dp"
@@ -62,7 +62,7 @@
                     android:id="@+id/tvFoodPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{Integer.toString(foodObject.yemek_fiyat)}"
+                    android:text="@{Integer.toString(cartFoodObject.yemek_fiyat)}"
                     android:textSize="22sp"
                     app:layout_constraintLeft_toLeftOf="@+id/tvFoodTitle"
                     app:layout_constraintTop_toTopOf="parent"
@@ -72,17 +72,27 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:text="₺"
+                    android:text=" ₺"
                     android:textSize="22sp"
                     app:layout_constraintLeft_toRightOf="@+id/tvFoodPrice"
                     app:layout_constraintTop_toTopOf="@+id/tvFoodPrice" />
+
+                <ImageView
+                    android:id="@+id/ivDeleteFood"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/delete_24"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/ivCountUp"
+                    app:layout_constraintBottom_toBottomOf="@id/ivCountUp"
+                    app:tint="@color/bright_orange" />
 
                 <TextView
                     android:id="@+id/tvFoodTotalPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0 ₺"
                     android:textSize="24sp"
+                    android:text="@{Integer.toString(cartFoodObject.yemek_fiyat * cartFoodObject.yemek_siparis_adet) + tl}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -108,7 +118,7 @@
                     android:id="@+id/tvFoodCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0"
+                    android:text="@{Integer.toString(cartFoodObject.yemek_siparis_adet)}"
                     android:textSize="28sp"
                     android:textStyle="bold"
                     app:layout_constraintTop_toBottomOf="@+id/ivCountUp"
