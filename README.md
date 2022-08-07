@@ -28,9 +28,10 @@ Using the following APIs:
 - [Retrofit](https://square.github.io/retrofit/) - Rest Client
 
 ## Screens
-Splash Screen             |  Home Page
-:-------------------------:|:-------------------------:
-![](https://github.com/busrakizilaslan/FoodApp/blob/master/screenshots/splashscreen.png)|![](https://github.com/busrakizilaslan/FoodApp/blob/master/screenshots/homepage.png)
+
+Splash Screen | Login Page | Home Page
+:-------------------------:|:-------------------------:|:-------------------------:
+![](https://github.com/busrakizilaslan/FoodApp/blob/master/screenshots/splashscreen.png)|![](https://github.com/busrakizilaslan/FoodApp/blob/master/screenshots/loginpage.png)|![](https://github.com/busrakizilaslan/FoodApp/blob/master/screenshots/homepage.png)
 
 Details Page             |  Cart Page
 :-------------------------:|:-------------------------:
