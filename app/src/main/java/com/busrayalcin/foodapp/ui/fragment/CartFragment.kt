@@ -1,11 +1,13 @@
 package com.busrayalcin.foodapp.ui.fragment
 
 import android.os.Bundle
+import android.os.Handler
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
@@ -25,7 +27,6 @@ class CartFragment : Fragment() {
     private lateinit var viewModel: CartFragmentViewModel
     private lateinit var auth: FirebaseAuth
     private lateinit var currentUserEmail : String
-    private var cartTotalPrice : Int = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,6 +34,8 @@ class CartFragment : Fragment() {
         auth = Firebase.auth
         val tempViewModel : CartFragmentViewModel by viewModels()
         viewModel = tempViewModel
+        currentUserEmail = auth.currentUser?.email.toString()
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
     }
 
     override fun onCreateView(
@@ -46,29 +49,9 @@ class CartFragment : Fragment() {
         binding.toolbarCart.setLogo(R.drawable.logofoodies)
         binding.toolbarCart.title = ""
 
-        currentUserEmail = auth.currentUser?.email.toString()
+        observeData()
 
-        viewModel.cartFoodList.observe(viewLifecycleOwner){
-            val adapter = CartFoodAdapter(requireContext(),it,viewModel)
-            binding.cartFoodAdapter = adapter
-            if (it.isEmpty()){
-                binding.tvCartTotalPrice.visibility = View.INVISIBLE
-                binding.buttonPlaceOrder.visibility = View.INVISIBLE
-                binding.lottieEmptyCart.visibility = View.VISIBLE
-            }else{
-                binding.tvCartTotalPrice.visibility = View.VISIBLE
-                binding.buttonPlaceOrder.visibility = View.VISIBLE
-                binding.lottieEmptyCart.visibility = View.INVISIBLE
-            }
-        }
-
-        for (food in viewModel.cartFoodList.value!!){
-            println("food $food")
-            cartTotalPrice += (food.yemek_fiyat * food.yemek_siparis_adet)
-        }
-        binding.tvCartTotalPrice.text = "Total Price : ${cartTotalPrice.toString()} ₺"
-
-
+        placeOrder()
         backPress()
         return binding.root
     }
@@ -76,13 +59,46 @@ class CartFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         viewModel.getCart(currentUserEmail)
+        val cartTotalPrice = viewModel.getCartTotal()
+        println(cartTotalPrice)
     }
 
-    fun backPress(){
+    fun backPress() {
         binding.toolbarCart.setNavigationIcon(R.drawable.back_24)
         binding.toolbarCart.setNavigationOnClickListener {
             requireActivity().onBackPressed()
         }
     }
 
+    fun observeData() {
+        viewModel.cartFoodList.observe(viewLifecycleOwner){
+            val adapter = CartFoodAdapter(requireContext(),it,viewModel)
+            binding.cartFoodAdapter = adapter
+            viewModel.getCartTotal()
+            binding.tvCartTotalPrice.text = "Toplam Fiyat: ${viewModel.getCartTotal().toString()} ₺"
+
+            if (it.isEmpty()) {
+                binding.tvCartTotalPrice.visibility = View.GONE
+                binding.buttonPlaceOrder.visibility = View.GONE
+                binding.lottieEmptyCart.visibility = View.VISIBLE
+                binding.lottieOrderCompleted.visibility = View.GONE
+            }else {
+                binding.tvCartTotalPrice.visibility = View.VISIBLE
+                binding.buttonPlaceOrder.visibility = View.VISIBLE
+                binding.lottieEmptyCart.visibility = View.GONE
+                binding.lottieOrderCompleted.visibility = View.GONE
+            }
+        }
+    }
+
+    fun placeOrder() {
+        binding.buttonPlaceOrder.setOnClickListener {
+            binding.lottieOrderCompleted.visibility = View.VISIBLE
+            viewModel.deleteAllCartFood(currentUserEmail)
+            Handler().postDelayed({
+                viewModel.getCart(currentUserEmail)
+                binding.lottieOrderCompleted.visibility = View.GONE
+            }, 2500)
+        }
+    }
 }

@@ -4,11 +4,11 @@
 
     <item
         android:id="@+id/action_signout"
-        android:title="Sign Out"
+        android:title="@string/cikisyap"
         app:showAsAction="never"/>
     <item
         android:id="@+id/action_search"
-        android:title="Search"
+        android:title="@string/ara"
         android:icon="@drawable/search_24_white"
         app:showAsAction="ifRoom|collapseActionView"
         app:actionViewClass="androidx.appcompat.widget.SearchView"

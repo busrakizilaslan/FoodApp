@@ -6,7 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
@@ -30,13 +32,12 @@ class FoodDetailsFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
     private lateinit var getFood : Food
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         auth = Firebase.auth
         val tempViewModel : FoodDetailsFragmentViewModel by viewModels()
         viewModel = tempViewModel
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
     }
 
     override fun onCreateView(
@@ -48,7 +49,7 @@ class FoodDetailsFragment : Fragment() {
         (activity as AppCompatActivity).setSupportActionBar(binding.toolbarFoodDetails)
         binding.toolbarFoodDetails.setLogo(R.drawable.logofoodies)
         binding.toolbarFoodDetails.title = ""
-        binding.tl = "₺"
+        binding.tl = " ₺"
         binding.foodDetailsFragment = this
         val bundle : FoodDetailsFragmentArgs by navArgs()
         getFood = bundle.food
@@ -58,28 +59,29 @@ class FoodDetailsFragment : Fragment() {
 
 
         binding.ivFoodImage.showUrlImage(getFood.yemek_resim_adi)
-        println("FoodDetailsFragment onCreateView")
         buttonAddCart(currentUserEmail)
         countListener()
         backPress()
         return binding.root
     }
 
-    fun buttonAddCart(currentUserEmail : String?){
+    private fun buttonAddCart(currentUserEmail : String?){
         binding.buttonAddCart.setOnClickListener {
-            Log.e("Msg", "buttonAddCart")
             viewModel.addCart(getFood.yemek_adi,getFood.yemek_resim_adi,getFood.yemek_fiyat,getFood.yemek_adet,currentUserEmail!!)
+            if (viewModel.frepo.success > 0) {
+                Toast.makeText(context,"${getFood.yemek_adi} sepete eklendi.",Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
-    fun backPress(){
+    private fun backPress(){
         binding.toolbarFoodDetails.setNavigationIcon(R.drawable.back_24)
         binding.toolbarFoodDetails.setNavigationOnClickListener {
             requireActivity().onBackPressed()
         }
     }
 
-    fun countListener(){
+    private fun countListener(){
         getFood.yemek_adet = 1
         binding.ivPlus.setOnClickListener {
             getFood.yemek_adet++

@@ -49,34 +49,18 @@ class CartFoodAdapter(var mContext: Context,
         hb.tl = " ₺"
         hb.ivFoodImage.showUrlImage(food.yemek_resim_adi)
 
-        hb.ivCountDown.setOnClickListener {
-            if (food.yemek_siparis_adet > 0)
-                food.yemek_siparis_adet--
 
-            println("${food.yemek_siparis_adet} ---")
-            hb.tvFoodCount.text = food.yemek_siparis_adet.toString()
-//            hb.tvFoodTotalPrice.text = (food.yemek_fiyat * food.yemek_siparis_adet).toString().plus(" ₺")
-        }
-        hb.ivCountUp.setOnClickListener {
-            // arttır -view model
-            food.yemek_siparis_adet++
-            println("${food.yemek_siparis_adet} +++ ")
-            hb.tvFoodCount.text = food.yemek_siparis_adet.toString()
-//            hb.tvFoodTotalPrice.text = (food.yemek_fiyat * food.yemek_siparis_adet).toString().plus(" ₺")
-        }
-//        hb.tvFoodTotalPrice.text = (food.yemek_fiyat * food.yemek_siparis_adet).toString().plus(" ₺")
         hb.ivDeleteFood.setOnClickListener {
-
             val builder = AlertDialog.Builder(mContext)
-            builder.setTitle("ARE YOU SURE?")
-            builder.setMessage("${food.yemek_adi} will be deleted from cart.")
-            builder.setPositiveButton("YES",DialogInterface.OnClickListener { dialog, which ->
-                Toast.makeText(mContext,"${food.yemek_adi} deleted.",Toast.LENGTH_SHORT).show()
+            builder.setTitle("Sepetten Çıkarmak İstediğine Emin misin?")
+            builder.setMessage("${food.yemek_adi} sepetten çıkarılacak.")
+            builder.setPositiveButton("evet",DialogInterface.OnClickListener { dialog, which ->
+                Toast.makeText(mContext,"${food.yemek_adi} sepetten çıkarıldı.",Toast.LENGTH_SHORT).show()
                 viewModel.deleteFood(food.sepet_yemek_id,food.kullanici_adi)
-                Log.e("Silinen Yemek :", "${food.sepet_yemek_id} -  ${food.kullanici_adi}")
+                Log.e("Çıkarılan Yemek :", "${food.sepet_yemek_id} -  ${food.kullanici_adi}")
                 viewModel.getCart(food.kullanici_adi)
             })
-            builder.setNegativeButton("NO",DialogInterface.OnClickListener { dialog, which ->
+            builder.setNegativeButton("HAYIR",DialogInterface.OnClickListener { dialog, which ->
             })
             builder.show()
 

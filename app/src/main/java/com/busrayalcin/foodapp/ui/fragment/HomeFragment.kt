@@ -1,8 +1,15 @@
 package com.busrayalcin.foodapp.ui.fragment
 
+import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.view.*
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -14,6 +21,7 @@ import com.busrayalcin.foodapp.data.entity.Food
 import com.busrayalcin.foodapp.databinding.FragmentHomeBinding
 import com.busrayalcin.foodapp.ui.adapter.FoodAdapter
 import com.busrayalcin.foodapp.ui.viewmodel.HomeFragmentViewModel
+import com.busrayalcin.foodapp.utils.Status
 import com.busrayalcin.foodapp.utils.doNavigate
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -36,10 +44,9 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
         setHasOptionsMenu(true)
         val tempViewModel: HomeFragmentViewModel by viewModels()
         viewModel = tempViewModel
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         currentUserEmail = auth.currentUser?.email.toString()
-
-        viewModel.downloadFoods()
         viewModel.getCart(currentUserEmail)
     }
     override fun onCreateView(
@@ -53,12 +60,13 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
         (activity as AppCompatActivity).setSupportActionBar(binding.toolbarHome)
         binding.toolbarHome.setLogo(R.drawable.logofoodies)
 
+
         viewModel.foodList.observe(viewLifecycleOwner){
             println(it)
             val adapter = FoodAdapter(requireContext(), it,viewModel, currentUserEmail)
             binding.foodAdapter = adapter
         }
-
+        getDataFromAPI()
         binding.fabCart.setOnClickListener {
             Navigation.doNavigate(it,HomeFragmentDirections.actionHomeFragmentToCartFragment())
         }
@@ -102,10 +110,58 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
         super.onResume()
     }
 
+    private fun getDataFromAPI() {
+        viewModel.downloadFoods().observe(viewLifecycleOwner) {
+            when (it.status) {
+                Status.SUCCESS -> {
+                    Log.e("STATUS", "SUCCESS")
+                    binding.rvFood.visibility = View.VISIBLE
+                    binding.lottieloading.visibility = View.GONE
+                    binding.lottieerror.visibility = View.GONE
+                }
+                Status.LOADING -> {
+                    Log.e("STATUS", "LOADING")
+                    binding.rvFood.visibility = View.GONE
+                    binding.lottieloading.visibility = View.VISIBLE
+                    binding.lottieerror.visibility = View.GONE
+                }
+                Status.ERROR -> {
+                    Log.e("STATUS", "ERROR")
+                    binding.rvFood.visibility = View.GONE
+                    binding.lottieloading.visibility = View.GONE
+                    binding.lottieerror.visibility = View.VISIBLE
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }
 
 
 
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        val callback: OnBackPressedCallback =
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    val builder = AlertDialog.Builder(context)
+                    builder.setTitle("Uygulamadan Çıkmak İstediğine Emin misin?")
+                    builder.setMessage("Gel biraz daha yemek bakalım :)")
+                    builder.setPositiveButton("evet",
+                        DialogInterface.OnClickListener { dialog, which ->
+                            android.os.Process.killProcess(android.os.Process.myPid())
+                        })
+                    builder.setNegativeButton("HAYIR",
+                        DialogInterface.OnClickListener { dialog, which ->
+                    })
+                    builder.show()
+                }
+            }
+        requireActivity().onBackPressedDispatcher.addCallback(
+            this,
+            callback
+        )
+    }
 
 
 

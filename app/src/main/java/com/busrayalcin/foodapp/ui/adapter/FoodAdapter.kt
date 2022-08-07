@@ -9,7 +9,7 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.busrayalcin.foodapp.R
 import com.busrayalcin.foodapp.data.entity.Food
-import com.busrayalcin.foodapp.databinding.FoodRowBinding
+import com.busrayalcin.foodapp.databinding.FoodRowStagBinding
 import com.busrayalcin.foodapp.ui.fragment.HomeFragmentDirections
 import com.busrayalcin.foodapp.ui.viewmodel.HomeFragmentViewModel
 import com.busrayalcin.foodapp.utils.doNavigate
@@ -23,10 +23,9 @@ class FoodAdapter(
     var currentUser: String
 )
     : RecyclerView.Adapter<FoodAdapter.FoodViewHolder>(){
-private lateinit var foodOrderList : ArrayList<Food>
 
-    inner class FoodViewHolder(binding: FoodRowBinding) : RecyclerView.ViewHolder(binding.root) {
-        var binding : FoodRowBinding
+    inner class FoodViewHolder(binding: FoodRowStagBinding) : RecyclerView.ViewHolder(binding.root) {
+        var binding : FoodRowStagBinding
         init {
             this.binding = binding
         }
@@ -35,7 +34,7 @@ private lateinit var foodOrderList : ArrayList<Food>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodViewHolder {
         val layoutInflater = LayoutInflater.from(mContext)
-        val binding : FoodRowBinding = DataBindingUtil.inflate(layoutInflater, R.layout.food_row,parent,false)
+        val binding : FoodRowStagBinding = DataBindingUtil.inflate(layoutInflater, R.layout.food_row_stag,parent,false)
         return FoodViewHolder(binding)
     }
 
@@ -47,27 +46,6 @@ private lateinit var foodOrderList : ArrayList<Food>
 
         hb.cvFood.setOnClickListener {
             Navigation.doNavigate(it,HomeFragmentDirections.actionHomeFragmentToFoodDetailsFragment(food = food))
-        }
-
-        hb.ivCountDown.setOnClickListener {
-            if (food.yemek_adet > 0){
-                food.yemek_adet--
-            }
-            println("${food.yemek_adet} ---")
-                foodOrderList[position] = food
-
-//            hb.tvFoodCount.text = food.yemek_adet.toString()
-//            hb.tvFoodTotalPrice.text = (food.yemek_fiyat * food.yemek_adet).toString().plus(" ₺")
-        }
-
-        hb.ivCountUp.setOnClickListener {
-            // arttır -view model
-            food.yemek_adet++
-            println("${food.yemek_adet} +++ ")
-            foodOrderList[position] = food
-//            hb.tvFoodCount.text = food.yemek_adet.toString()
-//            hb.tvFoodTotalPrice.text = (food.yemek_fiyat * food.yemek_adet).toString().plus(" ₺")
-            //viewModel.addCart(food.yemek_adi,food.yemek_resim_adi,food.yemek_fiyat,food.yemek_adet,currentUser)
         }
     }
 

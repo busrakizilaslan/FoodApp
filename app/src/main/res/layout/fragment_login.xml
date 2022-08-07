@@ -5,14 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.fragment.LoginFragment">
+    tools:context=".ui.fragment.LoginFragment"
+    android:background="@color/white">
 
     <Button
         android:id="@+id/buttonSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/buttonradius"
-        android:text="SIGN UP"
+        android:text="@string/kayit_ol"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/buttonSignIn"
@@ -37,7 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:hint="    Enter your e-mail address"
+        android:hint="     E-posta adresinizi giriniz"
         app:boxCornerRadiusBottomEnd="30dp"
         app:boxCornerRadiusBottomStart="30dp"
         app:boxCornerRadiusTopEnd="30dp"
@@ -49,9 +50,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lottieAnimationView"
         app:startIconDrawable="@drawable/email_24_orange"
-        app:startIconTint="@color/bright_orange">
+        app:startIconTint="@color/bright_orange"
+        android:maxLines="1"
+        android:lines="1">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tiEmailAddressET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -61,7 +65,9 @@
             android:textColor="@color/dark_blue"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lottieAnimationView" />
+            app:layout_constraintTop_toBottomOf="@+id/lottieAnimationView"
+            android:singleLine="true"
+            android:inputType="textEmailAddress"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -72,7 +78,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:hint="    Enter your password"
+        android:hint="     Şifrenizi giriniz"
         app:boxCornerRadiusBottomEnd="30dp"
         app:boxCornerRadiusBottomStart="30dp"
         app:boxCornerRadiusTopEnd="30dp"
@@ -83,7 +89,8 @@
         app:layout_constraintTop_toBottomOf="@+id/tiEmailAddress"
         app:passwordToggleEnabled="true"
         app:startIconDrawable="@drawable/password_24_orange"
-        app:startIconTint="@color/bright_orange">
+        app:startIconTint="@color/bright_orange"
+       >
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -95,7 +102,8 @@
             android:textColor="@color/dark_blue"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lottieAnimationView" />
+            app:layout_constraintTop_toBottomOf="@+id/lottieAnimationView"
+            android:singleLine="true"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -105,7 +113,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:background="@drawable/buttonradius"
-        android:text="SIGN IN"
+        android:text="@string/girisyap"
         app:layout_constraintEnd_toStartOf="@+id/buttonSignUp"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"

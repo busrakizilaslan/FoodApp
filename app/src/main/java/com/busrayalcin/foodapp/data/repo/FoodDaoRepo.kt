@@ -2,6 +2,7 @@ package com.busrayalcin.foodapp.data.repo
 
 
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import com.busrayalcin.foodapp.data.entity.*
 import com.busrayalcin.foodapp.retrofit.FoodDao
@@ -15,6 +16,8 @@ import javax.inject.Inject
 class FoodDaoRepo @Inject constructor(var fdao : FoodDao) {
     var foodList : MutableLiveData<List<Food>>
     var cartFoodList : MutableLiveData<List<CartFood>>
+    var success : Int = 0
+
     init {
         foodList = MutableLiveData()
         cartFoodList = MutableLiveData()
@@ -25,15 +28,15 @@ class FoodDaoRepo @Inject constructor(var fdao : FoodDao) {
     }
 
     fun getAllFoods() {
-        println("getAllFoods")
+        Log.e("getAllFoods", "has been called.")
         fdao.getAllFoods().enqueue(object : Callback<FoodResponse>{
             override fun onResponse(call: Call<FoodResponse>?, response: Response<FoodResponse>) {
-                println("getAllFoods onResponse")
+                Log.e("getAllFoods", "onResponse")
                 val list = response.body()!!.foodList
                 foodList.value = list
             }
             override fun onFailure(call: Call<FoodResponse>?, t: Throwable?) {
-                println("getAllFoods onFailure")
+                Log.e("getAllFoods", "onFailure")
                 println("$t.localizedMessage")
             }
         })
@@ -42,17 +45,15 @@ class FoodDaoRepo @Inject constructor(var fdao : FoodDao) {
     fun foodAddCart(yemek_adi : String,yemek_resim_adi : String,yemek_fiyat : Int,yemek_siparis_adet : Int,kullanici_adi : String){
             fdao.foodAddCart(yemek_adi,yemek_resim_adi,yemek_fiyat,yemek_siparis_adet,kullanici_adi).enqueue(object : Callback<CRUDResponse>{
             override fun onResponse(call: Call<CRUDResponse>?, response: Response<CRUDResponse>) {
-                val success = response.body()?.success
+                success = response.body()?.success!!
                 val message = response.body()?.message
-                Log.e("API Response", "Your order has been placed. $success - $message")
+                Log.e("foodAddCart", "Success: $success - $message" )
             }
 
             override fun onFailure(call: Call<CRUDResponse>?, t: Throwable?) {
                 println("foodAddCart onFailure")
                 println(t?.localizedMessage)
             }
-
-
         })
     }
     fun getCartFoods(): MutableLiveData<List<CartFood>> {
