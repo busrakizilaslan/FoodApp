@@ -43,7 +43,6 @@ class FoodAdapter(
         val hb = holder.binding
         hb.foodObject = food
         hb.ivFoodImage.showUrlImage(food.yemek_resim_adi)
-
         hb.cvFood.setOnClickListener {
             Navigation.doNavigate(it,HomeFragmentDirections.actionHomeFragmentToFoodDetailsFragment(food = food))
         }

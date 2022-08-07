@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import com.busrayalcin.foodapp.data.entity.*
 import com.busrayalcin.foodapp.retrofit.FoodDao
 import com.busrayalcin.kisileruygulamasi.data.entity.CRUDResponse
+import org.w3c.dom.ls.LSException
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -14,18 +15,19 @@ import javax.inject.Inject
 
 
 class FoodDaoRepo @Inject constructor(var fdao : FoodDao) {
-    var foodList : MutableLiveData<List<Food>>
-    var cartFoodList : MutableLiveData<List<CartFood>>
+    var foodList : MutableLiveData<List<Food>> = MutableLiveData()
+    var cartFoodList : MutableLiveData<List<CartFood>> = MutableLiveData()
+    var addCartFoodList : ArrayList<Food> = ArrayList()
     var success : Int = 0
 
-    init {
-        foodList = MutableLiveData()
-        cartFoodList = MutableLiveData()
-
-    }
     fun getFood() : MutableLiveData<List<Food>>{
         return foodList
     }
+
+   fun getFoodsToAddCart() : ArrayList<Food> {
+       return addCartFoodList
+       ///SONRADAN EKLENECEK///
+   }
 
     fun getAllFoods() {
         Log.e("getAllFoods", "has been called.")

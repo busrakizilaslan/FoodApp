@@ -70,6 +70,7 @@ class HomeFragment : Fragment(), SearchView.OnQueryTextListener {
         binding.fabCart.setOnClickListener {
             Navigation.doNavigate(it,HomeFragmentDirections.actionHomeFragmentToCartFragment())
         }
+
         return binding.root
     }
 

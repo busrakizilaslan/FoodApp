@@ -57,7 +57,6 @@ class FoodDetailsFragment : Fragment() {
 
         val currentUserEmail = auth.currentUser?.email
 
-
         binding.ivFoodImage.showUrlImage(getFood.yemek_resim_adi)
         buttonAddCart(currentUserEmail)
         countListener()
@@ -71,6 +70,8 @@ class FoodDetailsFragment : Fragment() {
             if (viewModel.frepo.success > 0) {
                 Toast.makeText(context,"${getFood.yemek_adi} sepete eklendi.",Toast.LENGTH_SHORT).show()
             }
+            viewModel.addFoodToList(getFood) ///SONRADAN EKLENECEK
+            println(getFood)
         }
     }
 
@@ -91,6 +92,7 @@ class FoodDetailsFragment : Fragment() {
         binding.ivMinus.setOnClickListener {
             if (getFood.yemek_adet > 1){
                 getFood.yemek_adet--
+                println(viewModel)
             }
             binding.tvFoodCount.text = getFood.yemek_adet.toString()
         }
